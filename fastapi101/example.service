@@ -1,0 +1,14 @@
+# /etc/systemd/system/myproject.service
+[Unit]
+Description=FastAPI app
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/myproject
+Environment="PATH=/opt/myproject/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+ExecStart=/opt/myproject/venv/bin/uvicorn helloworld:app --host 0.0.0.0 --port 8000 --workers 4
+Restart=on-failure
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
