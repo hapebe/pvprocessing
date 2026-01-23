@@ -1,12 +1,17 @@
-# /etc/systemd/system/myproject.service
+# /etc/systemd/system/sonnenstand.service
 [Unit]
 Description=FastAPI app
 After=network.target
 
 [Service]
-WorkingDirectory=/opt/myproject
-Environment="PATH=/opt/myproject/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
-ExecStart=/opt/myproject/venv/bin/uvicorn helloworld:app --host 0.0.0.0 --port 8000 --workers 4
+WorkingDirectory=/srv/sonnenstand/fastapi101
+User=pysrv
+Group=pysrv
+Environment="PATH=/srv/sonnenstand/fastapi101/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+ExecStart=/srv/sonnenstand/fastapi101/.venv/bin/uvicorn location-api:app --host 0.0.0.0 --port 8000 --workers 4
+# we might launch a series of separate commands link this,
+# says https://gist.github.com/torch2424/a2d4632831db4327b02d839147685007 :
+# ExecStart=/bin/bash --login -c 'source [USER_HOME]/.bashrc; cd [Directory of command] && [COMMAND TO RUN]'
 Restart=on-failure
 KillMode=mixed
 
