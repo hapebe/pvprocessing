@@ -8,7 +8,7 @@ WorkingDirectory=/srv/sonnenstand/fastapi101
 User=pysrv
 Group=pysrv
 Environment="PATH=/srv/sonnenstand/fastapi101/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
-ExecStart=/srv/sonnenstand/fastapi101/.venv/bin/uvicorn location-api:app --host 0.0.0.0 --port 8000 --workers 4
+ExecStart=/srv/sonnenstand/fastapi101/.venv/bin/uvicorn location-api:app --host 0.0.0.0 --port 8000 --workers 4 --log-config=log-conf.yaml
 # we might launch a series of separate commands link this,
 # says https://gist.github.com/torch2424/a2d4632831db4327b02d839147685007 :
 # ExecStart=/bin/bash --login -c 'source [USER_HOME]/.bashrc; cd [Directory of command] && [COMMAND TO RUN]'
