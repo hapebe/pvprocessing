@@ -43,6 +43,35 @@ def getSonnenstaende(lat, lon, timezone="Etc/UTC"):
     # return sun_data
     return dataframe_to_records(sun_data)
 
+def getHereAndNow(lat, lon, timezone="Etc/UTC"):
+    # get the current timestamp (in the specified timezone)
+    time = pd.Timestamp.now(tz=timezone)
+
+    location = pvlib.location.Location(lat, lon, tz=timezone)
+
+    solar_pos = location.get_solarposition(time)
+
+    azimuth = solar_pos["azimuth"].iloc[0]
+    elevation = solar_pos["elevation"].iloc[0]
+
+    timestring = time.isoformat()[0:19]
+    timestring = timestring.replace(":", "-")
+
+    # Prepare the data for JSON output
+    output_data = {
+        'lat': lat,
+        'lon': lon,
+        'isotime': time.isoformat(),
+        'time': timestring,
+        'timezone': timezone,
+        'azimuth': azimuth,
+        'azimuth_int': int(round(azimuth)),
+        'elevation': elevation,
+        'elevation_int': int(round(elevation)),
+    }
+    return output_data
+
+
 def main():
     sun_data = getSonnenstaende(
         lat = 52.52, lon = 13.405, timezone = "Europe/Berlin"

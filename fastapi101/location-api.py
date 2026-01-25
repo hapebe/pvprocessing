@@ -22,10 +22,14 @@ loader.exec_module( sonnenstand )
 
 app = FastAPI(title="PV location data API",description="Several data retrieval functions regarding sun und locations on earth.",version="1",contact={"name":"Hans-Peter Bergner"})
 
-# Todos Anzeigen
-@app.get("/", tags=["Read"])
+@app.get("/year", tags=["Read"])
 async def sunpositions(lat: float = 52.52, lon: float = 13.405, timezone: str = "Etc/UTC"):
     data = sonnenstand.getSonnenstaende(lat, lon, timezone)
+    return JSONResponse(content=jsonable_encoder(data))
+
+@app.get("/now", tags=["Read"])
+async def hereandnow(lat: float = 52.52, lon: float = 13.405, timezone: str = "Etc/UTC"):
+    data = sonnenstand.getHereAndNow(lat, lon, timezone)
     return JSONResponse(content=jsonable_encoder(data))
 
 # Run the application with Uvicorn when this script is executed directly.
